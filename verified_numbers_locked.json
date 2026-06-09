@@ -1,0 +1,69 @@
+{
+  "_meta": {
+    "title": "TUDOR — locked headline numbers (ground truth for the reproducer)",
+    "source": "Read directly off the rendered award deck (Slides 7, 12, 13) + JCL manuscript abstract, 2026-06.",
+    "owner": "Dr Nader Genedy, University Hospital of Wales / Cardiff University",
+    "ukb_application": "1002450",
+    "note": "These are the assertion targets for TUDOR_MASTER.py --reproduce. Real-data runs must reproduce these within tolerance; synthetic-data runs reproduce the METHOD, not these values."
+  },
+  "cohorts": {
+    "south_wales_development": {"n": 3099, "fh_positive": 554, "tripod": "Type 1b (development + internal CV)"},
+    "whole_wales_external":    {"n": 4570, "ldlr_carriers": 887, "tripod": "Type 3 (geographic external)"},
+    "uk_biobank":              {"n": 501936, "ldlr_carriers": 3540, "tripod": "Type 4 (frozen-coefficient transport)"},
+    "grand_total_adults": 506506
+  },
+  "bidirectional_wales": {
+    "direction_1_auc": 0.732, "direction_1_ci": [0.707, 0.757],
+    "direction_2_auc": 0.770, "direction_2_ci": [0.739, 0.797],
+    "statin_naive_auc": 0.801,
+    "delta_vs_eDLCN_dir1": 0.088, "delta_vs_eDLCN_dir2": 0.099,
+    "delong_p": "<0.001"
+  },
+  "head_to_head_overall_auc": {
+    "wales_primary":        {"n": 1471,   "carriers": 333,  "TUDOR": 0.770, "DLCN": 0.670, "MEDPED": 0.553, "SimonBroome": 0.570},
+    "wales_pooled_frozen":  {"n": 4570,   "carriers": 887,  "TUDOR": 0.746, "DLCN": 0.653, "MEDPED": 0.558, "SimonBroome": 0.571},
+    "uk_biobank_design_d":  {"n": 501936, "carriers": 3540, "TUDOR": 0.631, "DLCN": 0.538, "MEDPED": 0.520, "SimonBroome": 0.510}
+  },
+  "ukb_lipid_clinic_transport": {
+    "auc": 0.756, "ci": [0.734, 0.777], "LDLR_carriers_auc": 0.758, "APOB_carriers_auc": 0.731
+  },
+  "win_count": {
+    "wales_subgroups": "11/11", "ukb_subgroups": "14/14",
+    "total_subgroups": "25/25", "pairwise_vs_3_comparators": "75/75",
+    "largest_auc_gap": 0.223, "largest_gap_cohort": "UK Biobank"
+  },
+  "subgroup_auc_collapse_of_old_tools": {
+    "young_under50_ukb":          {"n": 117662, "carriers": 881, "DLCN": 0.550, "MEDPED": 0.519, "SimonBroome": 0.512},
+    "on_statin_at_v1_wales":      {"n": 839,    "carriers": 231, "DLCN": 0.651, "MEDPED": 0.531, "SimonBroome": 0.571},
+    "mixed_dyslipidaemia_tg4.5":  {"n": 11070,  "carriers": 75,  "DLCN": 0.492, "MEDPED": 0.512, "SimonBroome": 0.513},
+    "type2_diabetes_ukb":         {"n": 45715,  "carriers": 354, "DLCN": 0.495, "MEDPED": 0.509, "SimonBroome": 0.505}
+  },
+  "nri": {
+    "categorical_vs_eDLCN": 0.144,
+    "categorical_vs_MEDPED": 0.182,
+    "categorical_vs_SimonBroome": 0.031,
+    "continuous_primary": 0.211, "continuous_primary_ci": [0.095, 0.333],
+    "continuous_reciprocal": 0.250, "continuous_reciprocal_ci": [0.156, 0.337]
+  },
+  "additional_fh_caught_per_100": {
+    "type2_diabetes": 25, "cascade_lone_index": 14, "mixed_dyslipidaemia": 14, "young": 13, "on_statin_at_v1": 10
+  },
+  "aggregate_clinical_impact": {
+    "additional_fh_positive_identified": 190,
+    "approx_additional_probands": 95,
+    "approx_cascade_relatives": 190,
+    "approx_total_newly_diagnosed": 285
+  },
+  "nmr_molecular_asymmetry": {
+    "design": "UKB untreated, FH+ vs FH- within identical LDL bands (NMR clinical LDL)",
+    "finding": "FH+ have LOWER triglycerides at every LDL band; VLDL-C and HDL-C unchanged",
+    "max_standardised_mean_difference_tg": -0.24,
+    "confounder_matched": {"fh_pos_n": 2273, "fh_neg_n": 11174, "ratio": "1:5", "matched_on": ["age","sex","BMI","statin","NMR panel"]}
+  },
+  "model": {
+    "type": "Elastic Net penalised logistic regression",
+    "n_locked_coefficients": 11,
+    "three_pillars": ["Lipid Age (treatment back-calculation)", "Triglyceride Shield (LDL / (TG+0.1))", "Proband Effect (index vs cascade ascertainment)"],
+    "comparators": ["DLCN (enhanced)", "Simon Broome", "MEDPED", "FAMCAT (reconstructed, frozen)"]
+  }
+}

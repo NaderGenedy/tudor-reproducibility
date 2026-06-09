@@ -1,0 +1,21 @@
+# Regenerated artefacts (safe to ignore; rebuilt by the pipeline)
+output/
+synthetic_data/
+__pycache__/
+*.pyc
+
+# ----------------------------------------------------------------------------
+# DATA-GOVERNANCE FIREWALL — never commit governed / individual-level data.
+# These patterns defend against an accidental `git add` from the wrong folder.
+# ----------------------------------------------------------------------------
+*FULL_MASTER*.csv
+*Dragon*.csv
+*DRAGON*.csv
+*pass_*.csv
+*PASS*.csv
+ukb_*.csv
+*carriers*.csv
+*FH_Dragon3*
+*.parquet
+# Allowlist: the only data files that ARE safe to share are synthetic,
+# and those already live under the ignored synthetic_data/ directory.
