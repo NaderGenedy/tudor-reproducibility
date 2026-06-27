@@ -11,6 +11,8 @@ Each folder holds a `SKILL.md`; Claude auto-invokes one when a request matches i
 | [`research-reasoning`](research-reasoning/SKILL.md) | First-principles, mechanistic & causal reasoning; surface assumptions; cause vs correlation. |
 | [`critical-appraisal`](critical-appraisal/SKILL.md) | Risk-of-bias & quality appraisal — TRIPOD/PROBAST, QUADAS, GRADE, STROBE/PRISMA/CONSORT. |
 | [`loop-thinking`](loop-thinking/SKILL.md) | Iterative draft → critique → revise loops with explicit stopping criteria. |
+| [`systematic-review`](systematic-review/SKILL.md) | Full PRISMA 2020 / PROSPERO review & meta-analysis — protocol, search, screening, extraction, pooling, GRADE, PRISMA diagram. |
+| [`manuscript-qc`](manuscript-qc/SKILL.md) | Pre-submission gate — numerical-claim verification, internal consistency, citation integrity, TRIPOD compliance, reviewer-response audit (the TUDOR `tudor-qc` gate). |
 | [`autoresearch`](autoresearch/SKILL.md) | Autonomous end-to-end research loop that orchestrates all of the above. |
 
 **How they compose:** `autoresearch` drives the pipeline → `academic-research` gathers →
