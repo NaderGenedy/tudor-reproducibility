@@ -1,0 +1,61 @@
+name: Weekly Medical Research Tools Refresh
+
+# Refreshes MEDICAL_RESEARCH_TOOLS.md once a week using Claude Code headless.
+# Requires repo secret: ANTHROPIC_API_KEY
+# Manual run: Actions tab -> this workflow -> "Run workflow".
+
+on:
+  schedule:
+    # Mondays at 08:13 UTC (off-the-hour minute on purpose)
+    - cron: "13 8 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: medical-tools-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/github-medical-research-repos-hsia7p
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run weekly refresh
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude -p "$(cat .claude/refresh_medical_tools_prompt.md)
+
+          IMPORTANT: You are running headless in CI. Do NOT run git commit or git push
+          yourself — only edit MEDICAL_RESEARCH_TOOLS.md in place. The workflow commits
+          and pushes after you finish." \
+            --allowedTools "WebSearch,WebFetch,Read,Edit,Write,Glob,Grep" \
+            --permission-mode acceptEdits \
+            --max-turns 40
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain MEDICAL_RESEARCH_TOOLS.md)" ]; then
+            git add MEDICAL_RESEARCH_TOOLS.md
+            git commit -m "chore: weekly refresh of medical research tooling radar ($(date -u +%Y-%m-%d))"
+            git push origin claude/github-medical-research-repos-hsia7p
+          else
+            echo "No changes this week."
+          fi
